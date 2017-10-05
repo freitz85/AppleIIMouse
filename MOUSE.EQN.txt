@@ -1,0 +1,26 @@
+; JED2EQN -- JEDEC file to Boolean Equations disassembler (Version V063)
+; Copyright (c) National Semiconductor Corporation 1990-1993
+; Disassembled from mouse.jed. Date: 5-19-116
+
+chip mouse PAL16R4
+
+CLK=1 IO_STR=2 Q3=3 D0=4 i6=6 i7=7 DEV_SEL=8 IO_SEL=9 GND=10 /OE=11 ENABLE=12 
+o13=13 ro14=14 SYNC=17 CLK_2M=18 CLK=19 VCC=20 
+
+equations
+
+/CLK = IO_STR
+    + Q3
+CLK.oe = vcc
+/CLK_2M = /Q3
+CLK_2M.oe = vcc
+/SYNC := D0
+SYNC.oe = OE
+/ro14 := i6
+ro14.oe = OE
+/o13 = /i6 * i7
+    + i6 * /i7
+o13.oe = vcc
+/ENABLE = /DEV_SEL
+    + /IO_SEL
+ENABLE.oe = vcc

@@ -1,0 +1,59 @@
+ClampMouseX ->  W 4 Bytes   LLX, LHX, HLX, HHX
+ClampMouseY ->  W 4 Bytes   LLY, LHY, HLY, HHY
+SetMouse    ->  W 1 Byte    MODE
+ServeMouse  ->  R 1 Byte    STATUS
+ReadMouse   ->  R 6 Bytes   LX, LY, HX, HY, STATUS, MODE
+ClearMouse  ->  W 4 Bytes   LX, LY, HX, HY
+PosMouse    ->  W 4 Bytes   LX, LY, HX, HY
+HomeMouse   ->  R 4 Bytes   LLX, HLX, LLY, HLY
+                W 4 Bytes   LX, LY, HX, HY
+
+
+A0-A3:
+
+Write:
+0x00    Position:   LX, HX
+0x01                LY, HY
+0x02    BoundaryX:  LLX, LHX
+0x03                HLX, HHX
+0x04    BoundaryY:  LLY, LHY
+0x05                HLY, HHY
+0x06    State:      MODE
+0x07    Set to Input
+
+Read:
+0x08    Position:   LX, HX
+0x09                LY, HY
+0x0a    BoundaryX:  LLX, LHX
+0x0b                HLX, HHX
+0x0c    BoundaryY:  LLY, LHY
+0x0d                HLY, HHY
+0x0e    State:      STATUS
+0x0f    Reset to default
+
+
+Von Arduino lesen:
+VIA auf Input
+Adresse 0x08-0x0e in ORA
+-> Daten aus IRB lesen
+<- Adresse in ORA lädt nächsten Parameter
+
+Auf Arduino schreiben
+Adresse 0x07 in ORA, Arduino geht auf Input
+VIA auf Output
+-> Daten in ORB legen
+<- Adresse 0x00-0x06 in ORA
+
+
+
+Signal      Atmel       Arduino
+-------------------------------
+CB2         PD2         D2
+R/W         PD3         D3
+D4-7        PD4-7       D4-7
+D0-3        PB0-3       D8-11
+PS2_DATA    PB4         D12
+PS2_CLK     PB5         D13
+A0-3        PC0-3       A0-3
+/IRQ        PC5         A5
+
